@@ -23,6 +23,7 @@ export default function Pesquisar(){
                     <option value="Aluno">Aluno</option>
                     <option value="Professor">Professor</option>
                     <option value="Bibliotecario">Bibliotecario</option>
+                </select>
 
                     <div className="flex items-center space-x-2">
                         <input type="text" placeholder="Procure por ISBN,Título,autor ou editora..."
@@ -38,7 +39,6 @@ export default function Pesquisar(){
 
                     </div>
                     
-                </select>
 
             </div>
 
