@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export default function Pesquisar(){
-    const[usuario,setUsuario] = useState('Aluno');
-    const [busca,setBusca] = useState("");
+    const[usuario, setUsuario] = useState('Aluno');
+    const [busca, setBusca] = useState("");
 
     const handleSearch =() =>{
         console.log(`Pesquisando por:${busca}, como: ${usuario}`);

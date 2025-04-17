@@ -6,7 +6,7 @@ import Pesquisar from './Pesquisar.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <Principal/> */}
-    <Pesquisar/>
+    <Principal/>
+    {/* <Pesquisar/> */}
   </StrictMode>,
 )
