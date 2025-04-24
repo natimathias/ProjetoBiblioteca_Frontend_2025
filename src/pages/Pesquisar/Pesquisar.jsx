@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Pesquisar(){
+export function Pesquisar(){
     const[usuario, setUsuario] = useState('Aluno');
     const [busca, setBusca] = useState("");
 

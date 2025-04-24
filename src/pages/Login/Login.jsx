@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { HiOutlineEye } from 'react-icons/hi';
 
-export default function Login() {
+export function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
