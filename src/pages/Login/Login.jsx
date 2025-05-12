@@ -1,55 +1,67 @@
 import { useState } from 'react';
 import { FaUser, FaLock } from 'react-icons/fa';
-import { HiOutlineEye } from 'react-icons/hi';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/3 bg-gray-400 flex items-center justify-center">
-      <div className="flex items-center gap-4">
-          <img
-            src="/pagLogin.png"
-            alt="Escola"
-            className="w-20 mx-auto drop-shadow-md"
+    <div
+      className="flex h-screen bg-cover bg-center"
+      style={{ backgroundImage: 'url("/fundo_login.png")' }}
+    >
+      <div className="w-full flex items-center justify-center bg-black bg-opacity-60">
+        <div className="bg-gradient-to-br from-red-600/20 via-pink-700/10 to-purple-800/20 backdrop-blur-md rounded-3xl p-10 w-full max-w-md text-white shadow-[0_0_25px_#f87171] border border-red-400 transition-all duration-500 hover:scale-105">
+          <div className="text-center mb-8">
+            <img
+              src="/Fundo_livraria_login.png"
+              alt="ImgLogo"
+              className="w-20 h-20 rounded-full mx-auto drop-shadow-md mb-2"
             />
-          <a href="#" className="bg-black text-white font-bold px-4 py-2 mt-2 text-sm underline">
-            Cadastro Alunos
-          </a>
-      </div>
-    </div>
-
-      <div className="w-2/3 bg-gray-800 flex items-center justify-center">
-        <div className="bg-white rounded-2xl w-96 p-8 shadow-lg relative">
-          <div className="bg-black text-white text-center py-2 rounded-t-md absolute -top-10 left-0 w-full">
-            Login
+            <h1 className="text-3xl font-bold">Login Biblioteca</h1>
+            <p className="text-sm mt-1">Bem-vindo ao sistema da biblioteca</p>
           </div>
-          <h2 className="text-xl font-semibold mb-6 mt-4">Código do Crachá</h2>
 
-          <div className="flex items-center border border-gray-300 rounded mb-4 px-2">
-            <FaUser className="text-black text-xl mr-2" />
+          <div className="flex items-center bg-white bg-opacity-20 rounded px-3 mb-4 border border-white/30">
+            <FaUser className="text-white text-xl mr-3" />
             <input
               type="text"
               placeholder="Usuário"
-              className="w-full py-2 outline-none"
+              className="bg-transparent w-full py-2 text-white placeholder-white outline-none"
             />
           </div>
 
-          <div className="flex items-center border border-gray-300 rounded px-2">
-            <FaLock className="text-black text-xl mr-2" />
+          <div className="flex items-center bg-white bg-opacity-20 rounded px-3 mb-6 border border-white/30">
+            <FaLock className="text-white text-xl mr-3" />
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Senha"
-              className="w-full py-2 outline-none"
+              className="bg-transparent w-full py-2 text-white placeholder-white outline-none"
             />
-            <HiOutlineEye
-              className="text-black text-xl cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            />
+            {showPassword ? (
+              <HiOutlineEyeOff
+                className="text-white text-xl cursor-pointer"
+                onClick={() => setShowPassword(false)}
+              />
+            ) : (
+              <HiOutlineEye
+                className="text-white text-xl cursor-pointer"
+                onClick={() => setShowPassword(true)}
+              />
+            )}
+          </div>
+
+          <button className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold">
+            Entrar
+          </button>
+
+          <div className="text-center mt-4">
+            <a href="#" className="text-white text-sm underline hover:text-gray-200 transition">
+              Cadastro de Alunos
+            </a>
           </div>
         </div>
       </div>
     </div>
-  );
-}
+   );
+ }
