@@ -3,7 +3,9 @@ import { Menu } from "./pages/Menu/Menu";
 import { Login } from "./pages/Login/Login";
 import { Pesquisar } from "./pages/Pesquisar/Pesquisar";
 import { Catalogo } from "./pages/Catalogo/Catalogo";
-import { MeusDados } from "./pages/MeusDados/MeusDados"
+import { MeusDados } from "./pages/MeusDados/MeusDados";
+import { Emprestimo } from "./pages/Emprestimo/Emprestimo";
+
 
 export function Rotas() {
     return (
@@ -14,6 +16,7 @@ export function Rotas() {
                 <Route path="/pesquisar" element={<Pesquisar />} />
                 <Route path="/catalogo" element={<Catalogo />} />
                 <Route path="/dados" element={<MeusDados />} />
+                <Route path="/emprestimo" element={<Emprestimo/>}/>
             </Routes>
         </BrowserRouter>
     )

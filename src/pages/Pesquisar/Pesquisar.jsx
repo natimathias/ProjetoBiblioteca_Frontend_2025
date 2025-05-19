@@ -14,10 +14,10 @@ export function Pesquisar() {
                 className="absolute inset-0 bg-center bg-cover brightness-50"
                 style={{ backgroundImage: "url('/fundo_pesquisar.png')" }}
             />
-            <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-2xl p-10 shadow-xl w-full max-w-3xl text-white border border-red-400"
+            <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-2xl p-10 shadow-xl w-full max-w-3xl text-white border border-red-500/50"
                 style={{
-                    boxShadow: '0 0 25px rgba(255, 0, 122, 0.3)',
-                    border: '1px solid rgba(255, 0, 122, 0.4)',
+                    boxShadow: '0 0 25px rgba(255, 0, 0, 0.3)',
+                    border: '1px solid rgba(255, 0, 0, 0.4)',
                 }}
             >
                 <h1 className="text-3xl font-bold text-center mb-6">Pesquisar</h1>
