@@ -22,9 +22,9 @@ export function Menu() {
             <MenuItem icon={<FaHome />} label="Início" />
             <MenuItem icon={<FiLogIn />} label="Login" to="/login" />
             <MenuItem icon={<FaSearch />} label="Pesquisar" to='/pesquisar' />
-            <MenuItem icon={<FaArchive />} label="Catálogo" />
+            <MenuItem icon={<FaArchive />} label="Catálogo" to='/catalogo' />
             <MenuItem icon={<FaBook />} label="Empréstimos" />
-            <MenuItem icon={<FaUser />} label="Meus Dados" />
+            <MenuItem icon={<FaUser />} label="Meus Dados" to='dados' />
           </nav>
         </div>
 

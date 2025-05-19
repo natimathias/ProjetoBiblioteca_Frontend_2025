@@ -6,6 +6,5 @@ import { Rotas } from './Rotas'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Rotas/>
-    {/* <Menu /> */}
   </StrictMode>,
 )
