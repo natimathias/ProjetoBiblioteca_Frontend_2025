@@ -26,7 +26,7 @@ export function Login() {
             <FaUser className="text-white text-xl mr-3" />
             <input
               type="text"
-              placeholder="Usuário"
+              placeholder="Locatário"
               className="bg-transparent w-full py-2 text-white placeholder-white outline-none"
             />
           </div>
@@ -56,8 +56,8 @@ export function Login() {
           </button>
 
           <div className="text-center mt-4">
-            <a href="#" className="text-white text-sm underline hover:text-gray-200 transition">
-              Cadastro de Alunos
+            <a href="/cadastro" className="text-white text-sm underline hover:text-gray-200 transition">
+              Realizar cadastro
             </a>
           </div>
         </div>

@@ -5,6 +5,8 @@ import { Pesquisar } from "./pages/Pesquisar/Pesquisar";
 import { Catalogo } from "./pages/Catalogo/Catalogo";
 import { MeusDados } from "./pages/MeusDados/MeusDados";
 import { Emprestimo } from "./pages/Emprestimo/Emprestimo";
+import { CadastroLocatario } from "./pages/Cadastro/CadastroLocatario";
+import { CadastroLivro } from "./pages/Cadastro/CadastroLivro";
 
 
 export function Rotas() {
@@ -13,6 +15,8 @@ export function Rotas() {
             <Routes>
                 <Route path="/" element={<Menu />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/cadastroLocatario" element={<CadastroLocatario />} />
+                <Route path="/cadastroLivro" element={<CadastroLivro />} />
                 <Route path="/pesquisar" element={<Pesquisar />} />
                 <Route path="/catalogo" element={<Catalogo />} />
                 <Route path="/dados" element={<MeusDados />} />
