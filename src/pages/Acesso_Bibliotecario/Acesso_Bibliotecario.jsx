@@ -37,6 +37,11 @@ export function AcessoBibliotecario() {
               <span className="text-lg font-medium">Gerenciar Empréstimos</span>
             </Link>
 
+             <Link to="/cadastroCursos" className="flex items-center gap-4 bg-black/40 border border-white/20 rounded-xl p-4 hover:bg-black/60 transition cursor-pointer shadow-lg">
+              <FaClipboardList className="text-3xl" />
+              <span className="text-lg font-medium">Cadastrar Cursos</span>
+            </Link>
+
           </div>
         </div>
       </div>

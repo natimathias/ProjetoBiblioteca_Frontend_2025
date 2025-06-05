@@ -25,7 +25,6 @@ export function Rotas() {
                 <Route path="/catalogo" element={<Catalogo />} />
                 <Route path="/dados" element={<MeusDados />} />
                 <Route path="/emprestimo" element={<Emprestimo/>}/>
-                <Route path="/cadastroLocatario" element={<CadastroLocatario/>}/>
                 <Route path="/acessoBibliotecario" element={<AcessoBibliotecario/>}/>
                 <Route path="/cadastroEditora" element= {<CadastroEditora/>}/>
                 <Route path="/cadastroAutor" element={<CadastroAutor/>}/>
