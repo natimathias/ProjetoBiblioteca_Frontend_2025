@@ -21,11 +21,16 @@ export function Menu() {
           <nav className="space-y-4">
             <MenuItem icon={<FaHome />} label="Início" />
             <MenuItem icon={<FiLogIn />} label="Login" to="/login" />
-            <MenuItem icon={<FaSearch />} label="Pesquisar" to='/pesquisar' />
-            <MenuItem icon={<FaArchive />} label="Catálogo" to='/catalogo' />
+            <MenuItem icon={<FaSearch />} label="Pesquisar" to="/pesquisar" />
+            <MenuItem icon={<FaArchive />} label="Catálogo" to="/catalogo" />
             <MenuItem icon={<FaBook />} label="Empréstimos" />
-            <MenuItem icon={<FaUser />} label="Meus Dados" to='dados' />
+            <MenuItem icon={<FaUser />} label="Meus Dados" to="/dados" />
+
+            <div className="pt-2 border-t border-white/20">
+              <MenuItem icon={<FaBook />} label="Menu Bibliotecário" to="/acessoBibliotecario" />
+            </div>
           </nav>
+
         </div>
 
         <div className="pt-4 border-t border-white/20">

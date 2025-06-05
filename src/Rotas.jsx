@@ -7,6 +7,9 @@ import { MeusDados } from "./pages/MeusDados/MeusDados";
 import { Emprestimo } from "./pages/Emprestimo/Emprestimo";
 import { CadastroLocatario } from "./pages/Cadastro/CadastroLocatario";
 import { CadastroLivro } from "./pages/Cadastro/CadastroLivro";
+import { AcessoBibliotecario } from "./pages/Acesso_Bibliotecario/Acesso_Bibliotecario";
+import { CadastroEditora } from "./pages/Cadastro/CadastroEditora";
+import { CadastroAutor } from "./pages/Cadastro/CadastroAutor";
 
 
 export function Rotas() {
@@ -21,6 +24,10 @@ export function Rotas() {
                 <Route path="/catalogo" element={<Catalogo />} />
                 <Route path="/dados" element={<MeusDados />} />
                 <Route path="/emprestimo" element={<Emprestimo/>}/>
+                <Route path="/cadastroLocatario" element={<CadastroLocatario/>}/>
+                <Route path="/acessoBibliotecario" element={<AcessoBibliotecario/>}/>
+                <Route path="/cadastroEditora" element= {<CadastroEditora/>}/>
+                <Route path="/cadastroAutor" element={<CadastroAutor/>}/>
             </Routes>
         </BrowserRouter>
     )
