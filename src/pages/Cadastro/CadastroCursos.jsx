@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
-export function CadastroEditora() {
+export function CadastroCursos() {
   const [nome, setNome] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [telefone, setTelefone] = useState('');
+  const [codigo, setCodigo] = useState('');
 
   return (
     <div
@@ -15,14 +14,14 @@ export function CadastroEditora() {
       <div className="w-full flex items-center justify-center bg-black bg-opacity-60">
         <div className="bg-gradient-to-br from-red-600/20 via-pink-700/10 to-purple-800/20 backdrop-blur-md rounded-3xl p-10 w-full max-w-md text-white shadow-[0_0_25px_#f87171] border border-red-400 transition-all duration-500 hover:scale-105">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold">Cadastro de Editora</h1>
-            <p className="text-sm mt-1">Preencha os dados da editora</p>
+            <h1 className="text-3xl font-bold">Cadastro de Cursos</h1>
+            <p className="text-sm mt-1">Informe os dados do curso</p>
           </div>
 
           <form className="space-y-4">
             <input
               type="text"
-              placeholder="Nome da Editora"
+              placeholder="Nome do Curso"
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
@@ -30,18 +29,10 @@ export function CadastroEditora() {
 
             <input
               type="text"
-              placeholder="Endereço"
+              placeholder="Código do Curso"
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
-              value={endereco}
-              onChange={(e) => setEndereco(e.target.value)}
-            />
-
-            <input
-              type="tel"
-              placeholder="Telefone"
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
-              value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
+              value={codigo}
+              onChange={(e) => setCodigo(e.target.value)}
             />
 
             <button
