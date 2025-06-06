@@ -55,11 +55,6 @@ export function Login() {
             Entrar
           </button>
 
-          <div className="text-center mt-4">
-            <a href="/cadastro" className="text-white text-sm underline hover:text-gray-200 transition">
-              Realizar cadastro
-            </a>
-          </div>
         </div>
       </div>
     </div>
