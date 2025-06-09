@@ -5,6 +5,21 @@ export function CadastroEditora() {
   const [endereco, setEndereco] = useState('');
   const [telefone, setTelefone] = useState('');
 
+  const realizarCadastro = async () => {
+    fetch("https://projetobiblioteca-backend-2025.onrender.com/editora")
+      .then((response) => response.json())
+      .then((editora) => {
+        res.send(editora.message || "Editora cadastrada com sucesso!")
+        setNome('');
+        setEndereco('');
+        setTelefone('');
+      })
+      .catch(error => {
+        console.log("Erro ao cadastrar editora", error);
+        res.send("Ops, houve um erro.")
+      })
+  }
+
   return (
     <div
       className="flex h-screen bg-cover bg-center"
@@ -47,6 +62,7 @@ export function CadastroEditora() {
             <button
               type="submit"
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
+              onClick={realizarCadastro}
             >
               Cadastrar
             </button>
