@@ -1,16 +1,16 @@
-import{ useState } from "react"
+import { useState } from "react"
 
 export function CadastroLivro() {
-    const [titulo, setTitulo] = useState('');
-    const [isbn, setIsbn] = useState('');
-    const [autor, setAutor] = useState('');
-    const [editora, setEditora] = useState('');
-    const [edicao, setEdicao] = useState('');
-    const [qt_disponivel, setQt_disponivel] = useState('');
-    const [capa, setCapa] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [isbn, setIsbn] = useState('');
+  const [autor, setAutor] = useState('');
+  const [editora, setEditora] = useState('');
+  const [edicao, setEdicao] = useState('');
+  const [qt_disponivel, setQt_disponivel] = useState('');
+  const [capa, setCapa] = useState('');
 
-    return (
-        <div
+  return (
+    <div
       className="flex h-screen bg-cover bg-center"
       style={{
         backgroundImage: 'url("/fundo_Locatario.png")',
@@ -72,13 +72,22 @@ export function CadastroLivro() {
               onChange={(e) => setQt_disponivel(e.target.value)}
             />
 
-            <input
-              type="button" 
-              value="Capa do livro"
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
-              onChange={(e) => setCapa(e.target.value)}
-            />
-
+            <div>
+              <label
+                htmlFor="capa"
+                className="block w-full px-4 py-2 text-center cursor-pointer bg-white bg-opacity-20 text-white rounded border border-white/30 hover:bg-opacity-30 focus:outline-none focus:ring focus:ring-red-300"
+              >
+                Selecionar Capa do Livro
+              </label>
+              <input
+                id="capa"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => setCapa(e.target.files[0])}
+              />
+            </div>
+            
             <button
               type="submit"
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
@@ -89,5 +98,5 @@ export function CadastroLivro() {
         </div>
       </div>
     </div>
-    )
+  )
 }
