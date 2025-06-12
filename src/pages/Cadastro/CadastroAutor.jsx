@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function CadastroAutor() {
   const [nome, setNome] = useState('');
+  const navigate = useNavigate();
 
   const realizarCadastro = (e) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ export function CadastroAutor() {
         const resposta = await response.json();
         alert(resposta.message);
         setNome('');
+        navigate('/listarAutores');
       })
       .catch((error) => {
         console.error("Erro ao cadastrar autor:", error);

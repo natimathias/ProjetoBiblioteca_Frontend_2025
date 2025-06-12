@@ -5,7 +5,7 @@ export function ListagemAutores() {
   const [loading, setLoading] = useState(true);
 
   const buscarAutores = () => {
-    fetch("http://localhost:8086/autores")
+    fetch("http://localhost:8086/listarAutores")
       .then((res) => res.json())
       .then((data) => {
         setAutores(data);

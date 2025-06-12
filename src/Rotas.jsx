@@ -11,7 +11,7 @@ import { AcessoBibliotecario } from "./pages/Acesso_Bibliotecario/Acesso_Bibliot
 import { CadastroEditora } from "./pages/Cadastro/CadastroEditora";
 import { CadastroAutor } from "./pages/Cadastro/CadastroAutor";
 import { CadastroCursos } from "./pages/Cadastro/CadastroCursos";
-
+import { ListagemAutores } from "./pages/Listagem/listagemAutores";
 
 export function Rotas() {
     return (
@@ -29,6 +29,7 @@ export function Rotas() {
                 <Route path="/cadastroEditora" element= {<CadastroEditora/>}/>
                 <Route path="/cadastroAutor" element={<CadastroAutor/>}/>
                 <Route path="/cadastroCursos" element={<CadastroCursos/>}/>
+                <Route path="/listarAutores" element={<ListagemAutores/>}/>
             </Routes>
         </BrowserRouter>
     )
