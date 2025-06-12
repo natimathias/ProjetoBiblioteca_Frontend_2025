@@ -1,7 +1,39 @@
 import { useState } from 'react';
 
 export function CadastroLocatario() {
-  const [tipo, setTipo] = useState('');
+  const [nome, setNome] = useState("");
+  const [dataNascimento, setData_nascimento] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [tipo, setTipo] = useState("");
+
+  const realizarCadastro = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:8086/cadastrarLocatario", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id, nome, dataNascimento, email, senha, telefone, tipo })
+    })
+      .then(async (response) => {
+        const resposta = await response.json();
+        alert(resposta.message);
+        setNome('');
+        setData_nascimento('');
+        setEmail('');
+        setSenha('');
+        setTelefone('');
+        setTipo('');
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar locatário:", error);
+        alert("Ops, houve um erro ao cadastrar o locatário.");
+      });
+
+  };
 
   return (
     <div
@@ -21,25 +53,30 @@ export function CadastroLocatario() {
             <input
               type="text"
               placeholder="Nome completo"
+              onChange={(e) => setNome(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="date"
+              onChange={(e) => setData_nascimento(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="email"
               placeholder="E-mail"
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="password"
               placeholder="Senha"
+              onChange={(e) => setSenha(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="tel"
               placeholder="Telefone"
+              onChange={(e) => setNome(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
 
@@ -56,7 +93,7 @@ export function CadastroLocatario() {
             </select>
 
             <button
-              type="submit"
+              onClick={realizarCadastro}
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
             >
               Cadastrar

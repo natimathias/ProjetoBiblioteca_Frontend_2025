@@ -3,6 +3,28 @@ import { useState } from 'react';
 export function CadastroAutor() {
   const [nome, setNome] = useState('');
 
+  const realizarCadastro = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:8086/cadastrarAutor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: null, nome })
+    })
+      .then(async (response) => {
+        const resposta = await response.json();
+        alert(resposta.message);
+        setNome('');
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar autor:", error);
+        alert("Ops, houve um erro ao cadastrar o autor.");
+      });
+
+  };
+
   return (
     <div
       className="flex h-screen bg-cover bg-center"
@@ -27,7 +49,7 @@ export function CadastroAutor() {
             />
 
             <button
-              type="submit"
+              onClick={realizarCadastro}
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
             >
               Cadastrar

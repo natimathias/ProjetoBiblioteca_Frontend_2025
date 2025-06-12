@@ -5,20 +5,29 @@ export function CadastroEditora() {
   const [endereco, setEndereco] = useState('');
   const [telefone, setTelefone] = useState('');
 
-  const realizarCadastro = async () => {
-    fetch("https://projetobiblioteca-backend-2025.onrender.com/editora")
-      .then((response) => response.json())
-      .then((editora) => {
-        res.send(editora.message || "Editora cadastrada com sucesso!")
-        setNome('');
-        setEndereco('');
-        setTelefone('');
-      })
-      .catch(error => {
-        console.log("Erro ao cadastrar editora", error);
-        res.send("Ops, houve um erro.")
-      })
-  }
+  const realizarCadastro = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:8086/cadastrarEditora", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ id: null, nome, endereco, telefone })
+})
+  .then(async (response) => {
+    const resposta = await response.json();
+    alert(resposta.message || "Editora cadastrada com sucesso!");
+    setNome('');
+    setEndereco('');
+    setTelefone('');
+  })
+  .catch((error) => {
+    console.error("Erro ao cadastrar editora:", error);
+    alert("Ops, houve um erro ao cadastrar a editora.");
+  });
+
+  };
 
   return (
     <div
@@ -41,28 +50,27 @@ export function CadastroEditora() {
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
+              required
             />
-
             <input
               type="text"
               placeholder="Endereço"
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={endereco}
               onChange={(e) => setEndereco(e.target.value)}
+              required
             />
-
             <input
               type="tel"
               placeholder="Telefone"
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
+              required
             />
-
             <button
-              type="submit"
-              className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
               onClick={realizarCadastro}
+              className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
             >
               Cadastrar
             </button>
