@@ -22,7 +22,6 @@ export function CadastroAutor() {
         console.error("Erro ao cadastrar autor:", error);
         alert("Ops, houve um erro ao cadastrar o autor.");
       });
-
   };
 
   return (
