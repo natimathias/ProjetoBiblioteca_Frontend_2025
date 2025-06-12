@@ -21,13 +21,13 @@ export function ListagemAutores() {
     buscarAutores();
   }, []);
 
-  const removerAutor = (nome) => {
-    fetch(`http://localhost:8086/removerAutor?nome=${encodeURIComponent(nome)}`, {
-      method: "POST",
+  const removerAutor = (id) => {
+    fetch(`http://localhost:8086/removerAutor/${id}}`, {
+      method: "DELETE",
     })
       .then(async (res) => {
-        const data = await res.json();
-        alert(data.message);
+        const resposta = await res.json();
+        alert(resposta.message);
         buscarAutores();
       })
       .catch((error) => {
