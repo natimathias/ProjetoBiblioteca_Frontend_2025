@@ -23,12 +23,12 @@ export function ListagemAutores() {
 
   const removerAutor = (nome) => {
     fetch(`http://localhost:8086/removerAutor?nome=${encodeURIComponent(nome)}`, {
-      method: "POST", 
+      method: "POST",
     })
       .then(async (res) => {
         const data = await res.json();
         alert(data.message);
-        buscarAutores(); 
+        buscarAutores();
       })
       .catch((error) => {
         console.error("Erro ao remover autor:", error);
@@ -48,7 +48,7 @@ export function ListagemAutores() {
           {loading ? (
             <p className="text-center">Carregando...</p>
           ) : autores.length ? (
-            <ul className="space-y-4">
+            <ul className="space-y-4 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-red-500">
               {autores.map((autor, index) => (
                 <li
                   key={index}
