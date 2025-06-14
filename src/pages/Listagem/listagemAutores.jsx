@@ -22,8 +22,9 @@ export function ListagemAutores() {
   }, []);
 
   const removerAutor = (id) => {
+    console.log(id)
     fetch(`http://localhost:8086/removerAutor/${id}`, {
-      method: "DELETE",
+      method: "GET",
     })
       .then(async (res) => {
         const resposta = await res.json();
@@ -58,7 +59,7 @@ export function ListagemAutores() {
                     <h2 className="text-xl font-semibold">{autor.nome}</h2>
                   </div>
                   <button
-                    onClick={() => removerAutor(autor.id)}
+                    onClick={removerAutor}
                     className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
                   >
                     Remover

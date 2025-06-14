@@ -16,7 +16,7 @@ export function CadastroLocatario() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ id, nome, dataNascimento, email, senha, telefone, tipo })
+      body: JSON.stringify({ id: null, nome, dataNascimento, email, senha, telefone, tipo })
     })
       .then(async (response) => {
         const resposta = await response.json();
