@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function CadastroLocatario() {
   const [nome, setNome] = useState("");
@@ -7,6 +8,7 @@ export function CadastroLocatario() {
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
   const [tipo, setTipo] = useState("");
+  const navigate = useNavigate("");
 
   const realizarCadastro = (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ export function CadastroLocatario() {
         setSenha('');
         setTelefone('');
         setTipo('');
+        navigate('/listarLocatarios')
       })
       .catch((error) => {
         console.error("Erro ao cadastrar locatário:", error);
@@ -76,7 +79,7 @@ export function CadastroLocatario() {
             <input
               type="tel"
               placeholder="Telefone"
-              onChange={(e) => setNome(e.target.value)}
+              onChange={(e) => setTelefone(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
 

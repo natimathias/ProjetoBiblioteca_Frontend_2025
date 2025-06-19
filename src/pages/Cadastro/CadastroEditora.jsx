@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function CadastroEditora() {
   const [nome, setNome] = useState('');
   const [endereco, setEndereco] = useState('');
   const [telefone, setTelefone] = useState('');
+  const navigate = useNavigate('');
 
   const realizarCadastro = (e) => {
     e.preventDefault();
@@ -21,6 +23,7 @@ export function CadastroEditora() {
     setNome('');
     setEndereco('');
     setTelefone('');
+    navigate('/listarEditoras');
   })
   .catch((error) => {
     console.error("Erro ao cadastrar editora:", error);

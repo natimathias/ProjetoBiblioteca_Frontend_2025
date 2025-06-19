@@ -1,8 +1,34 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function CadastroCursos() {
   const [nome, setNome] = useState('');
   const [codigo, setCodigo] = useState('');
+  const navigate = useNavigate();
+
+    const realizarCadastro = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:8086/cadastrarCurso", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: null, nome, codigo })
+    })
+      .then(async (response) => {
+        const resposta = await response.json();
+        alert(resposta.message);
+        setNome('');
+        setCodigo('');
+        navigate('/listarCursos');
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar curso:", error);
+        alert("Ops, houve um erro ao cadastrar o curso.");
+      });
+  };
+
 
   return (
     <div
@@ -36,7 +62,7 @@ export function CadastroCursos() {
             />
 
             <button
-              type="submit"
+              onClick={realizarCadastro}
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
             >
               Cadastrar

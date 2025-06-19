@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ListagemEditoras() {
   const [editoras, setEditoras] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate('');
 
   const buscarEditoras = () => {
     fetch("http://localhost:8086/listarEditoras")
@@ -23,12 +25,13 @@ export function ListagemEditoras() {
 
   const removerEditora = (id) => {
     fetch(`http://localhost:8086/removerEditora/${id}`, {
-      method: "DELETE",
+      method: "GET",
     })
       .then(async (res) => {
         const resposta = await res.json();
         alert(resposta.message);
         buscarEditoras();
+        navigate('/cadastroEditora');
       })
       .catch((error) => {
         console.error("Erro ao remover editora:", error);

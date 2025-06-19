@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ListagemAutores() {
   const [autores, setAutores] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate('');
 
   const buscarAutores = () => {
     fetch("http://localhost:8086/listarAutores")
@@ -29,7 +31,8 @@ export function ListagemAutores() {
       .then(async (res) => {
         const resposta = await res.json();
         alert(resposta.message);
-        buscarAutores();
+        buscarEditoras();
+        navigate('/cadastroAutor')
       })
       .catch((error) => {
         console.error("Erro ao remover autor:", error);
@@ -59,7 +62,7 @@ export function ListagemAutores() {
                     <h2 className="text-xl font-semibold">{autor.nome}</h2>
                   </div>
                   <button
-                    onClick={removerAutor}
+                    onClick={() => removerAutor(autor.id)}
                     className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
                   >
                     Remover

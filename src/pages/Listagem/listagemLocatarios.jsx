@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ListagemLocatarios() {
   const [locatarios, setLocatarios] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate('');
 
   const buscarLocatarios = () => {
     fetch("http://localhost:8086/listarLocatarios")
@@ -23,12 +25,13 @@ export function ListagemLocatarios() {
 
   const removerLocatario = (id) => {
     fetch(`http://localhost:8086/removerLocatario/${id}`, {
-      method: "DELETE",
+      method: "GET",
     })
       .then(async (res) => {
         const resposta = await res.json();
         alert(resposta.message);
         buscarLocatarios();
+        navigate('/cadastroLocatario')
       })
       .catch((error) => {
         console.error("Erro ao remover locatário:", error);
