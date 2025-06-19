@@ -13,7 +13,7 @@ import { CadastroAutor } from "./pages/Cadastro/CadastroAutor";
 import { CadastroCursos } from "./pages/Cadastro/CadastroCursos";
 import { ListagemEditoras } from "./pages/Listagem/ListagemEditoras";
 import { ListagemAutores } from "./pages/Listagem/listagemAutores";
-import { ListagemCursos } from "./pages/Listagem/listagemCursos";
+import { ListagemCursos } from "./pages/Listagem/ListagemCursos";
 import { ListagemLocatarios } from "./pages/Listagem/listagemLocatarios";
 
 export function Rotas() {

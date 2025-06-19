@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ListagemCursos() {
   const [cursos, setCursos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate('');
 
   const buscarCursos = () => {
     fetch("http://localhost:8086/listarCursos")
@@ -22,13 +24,15 @@ export function ListagemCursos() {
   }, []);
 
   const removerCurso = (id) => {
+    console.log(id)
     fetch(`http://localhost:8086/removerCurso/${id}`, {
-      method: "DELETE",
+      method: "GET",
     })
       .then(async (res) => {
         const resposta = await res.json();
         alert(resposta.message);
         buscarCursos();
+        navigate('/cadastroCurso');
       })
       .catch((error) => {
         console.error("Erro ao remover curso:", error);

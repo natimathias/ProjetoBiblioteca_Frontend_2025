@@ -31,8 +31,8 @@ export function ListagemAutores() {
       .then(async (res) => {
         const resposta = await res.json();
         alert(resposta.message);
-        buscarEditoras();
-        navigate('/cadastroAutor')
+        buscarAutores();
+        navigate('/cadastroAutor');
       })
       .catch((error) => {
         console.error("Erro ao remover autor:", error);
