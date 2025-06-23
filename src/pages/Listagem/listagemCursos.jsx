@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Edit, RefreshCcw, Trash2 } from "lucide-react";
 
 export function ListagemCursos() {
   const [cursos, setCursos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate('');
+  const navigate = useNavigate();
 
   const buscarCursos = () => {
     fetch("http://localhost:8086/listarCursos")
@@ -24,7 +25,6 @@ export function ListagemCursos() {
   }, []);
 
   const removerCurso = (id) => {
-    console.log(id)
     fetch(`http://localhost:8086/removerCurso/${id}`, {
       method: "GET",
     })
@@ -32,12 +32,20 @@ export function ListagemCursos() {
         const resposta = await res.json();
         alert(resposta.message);
         buscarCursos();
-        navigate('/cadastroCurso');
+        navigate("/cadastroCurso");
       })
       .catch((error) => {
         console.error("Erro ao remover curso:", error);
         alert("Erro ao remover curso.");
       });
+  };
+
+  const editarCurso = (id) => {
+    navigate(`/editarCurso/${id}`);
+  };
+
+  const atualizarCurso = (id) => {
+    alert(`Atualizar curso com ID ${id}`);
   };
 
   return (
@@ -61,12 +69,30 @@ export function ListagemCursos() {
                   <div>
                     <h2 className="text-xl font-semibold">{curso.nome}</h2>
                   </div>
-                  <button
-                    onClick={() => removerCurso(curso.id)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-                  >
-                    Remover
-                  </button>
+
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => removerCurso(curso.id)}
+                      title="Remover"
+                      className="hover:text-red-500 transition"
+                    >
+                      <Trash2 size={22} />
+                    </button>
+                    <button
+                      onClick={() => editarCurso(curso.id)}
+                      title="Editar"
+                      className="hover:text-yellow-400 transition"
+                    >
+                      <Edit size={22} />
+                    </button>
+                    <button
+                      onClick={() => atualizarCurso(curso.id)}
+                      title="Atualizar"
+                      className="hover:text-blue-400 transition"
+                    >
+                      <RefreshCcw size={22} />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
