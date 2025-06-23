@@ -83,17 +83,26 @@ export function CadastroLocatario() {
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
 
-            <select
-              value={tipo}
-              onChange={(e) => setTipo(e.target.value)}
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
-            >
-              <option value="">Selecione o tipo</option>
-              <option value="professor">Professor</option>
-              <option value="aluno">Aluno</option>
-              <option value="bibliotecario">Bibliotecário</option>
-              <option value="visitante">Visitante</option>
-            </select>
+            <div className="relative">
+              <select
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+                className="w-full mt-2 px-4 py-2 bg-white/20 text-white rounded-md border border-white/30 backdrop-blur-md focus:outline-none focus:ring focus:ring-red-300 appearance-none"
+              >
+                <option className="text-white bg-black" disabled value="">Selecione o tipo</option>
+                <option className="text-black bg-black bg-opacity-30">Professor</option>
+                <option className="text-black bg-black bg-opacity-30">Aluno</option>
+                <option className="text-black bg-black bg-opacity-30">Bibliotecário</option>
+                <option className="text-black bg-black bg-opacity-30">Visitante</option>
+              </select>
+
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+
 
             <button
               onClick={realizarCadastro}
