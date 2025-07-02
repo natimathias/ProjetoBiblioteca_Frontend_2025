@@ -62,11 +62,11 @@ export function CadastroLivro() {
             />
 
             <select
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              className="w-full px-4 py-2 bg-white/30 bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={autor}
               onChange={(e) => setAutor(e.target.value)}
             >
-              <option value="">Selecione o Autor</option>
+              <option className="text-black bg-black bg-opacity-30" value="">Selecione o Autor</option>
               {autores.map((a) => (
                 <option key={a.id} value={a.id}>{a.nome}</option>
               ))}
