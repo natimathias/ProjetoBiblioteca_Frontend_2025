@@ -30,6 +30,34 @@ export function CadastroLivro() {
     fetchDados();
   }, []);
 
+   const realizarCadastro = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:8086/cadastrarLivro", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: null, titulo, qt_disponivel, isbn, autor, editora, edicao, capa })
+    })
+      .then(async (response) => {
+        const resposta = await response.json();
+        alert(resposta.message);
+        setTitulo('');
+        setQt_disponivel('');
+        setIsbn('');
+        setAutor('');
+        setEditora('');
+        setEdicao('');
+        setCapa('');
+        navigate('/listarLivros');
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar livro:", error);
+        alert("Ops, houve um erro ao cadastrar o livro.");
+      });
+  };
+
   return (
     <div
       className="flex h-screen bg-cover bg-center"
@@ -66,9 +94,9 @@ export function CadastroLivro() {
               value={autor}
               onChange={(e) => setAutor(e.target.value)}
             >
-              <option className="text-black bg-black bg-opacity-30" value="">Selecione o Autor</option>
+              <option className="text-black bg-black bg-opacity-30" disabled value="">Selecione o Autor</option>
               {autores.map((a) => (
-                <option key={a.id} value={a.id}>{a.nome}</option>
+                <option className="text-black bg-black bg-opacity-30" key={a.id} value={a.id}>{a.nome}</option>
               ))}
             </select>
 
@@ -99,11 +127,8 @@ export function CadastroLivro() {
               onChange={(e) => setQt_disponivel(e.target.value)}
             />
 
-            <div>
-              <label
-                htmlFor="capa"
-                className="block w-full px-4 py-2 text-center cursor-pointer bg-white bg-opacity-20 text-white rounded border border-white/30 hover:bg-opacity-30 focus:outline-none focus:ring focus:ring-red-300"
-              >
+  <div>
+              <label htmlFor="capa" className="block w-full px-4 py-2 text-center cursor-pointer bg-white bg-opacity-20 text-white rounded border border-white/30 hover:bg-opacity-30 focus:outline-none focus:ring focus:ring-red-300">
                 Selecionar Capa do Livro
               </label>
               <input
@@ -113,10 +138,11 @@ export function CadastroLivro() {
                 className="hidden"
                 onChange={(e) => setCapa(e.target.files[0])}
               />
+              {capa && <p className="text-sm mt-1 text-white">Arquivo selecionado: {capa.name}</p>}
             </div>
 
             <button
-              type="submit"
+              onClick={realizarCadastro}
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
             >
               Cadastrar
