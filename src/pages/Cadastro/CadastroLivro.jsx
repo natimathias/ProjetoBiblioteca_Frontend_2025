@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react";
 
 export function CadastroLivro() {
   const [titulo, setTitulo] = useState('');
@@ -8,6 +8,25 @@ export function CadastroLivro() {
   const [edicao, setEdicao] = useState('');
   const [qt_disponivel, setQt_disponivel] = useState('');
   const [capa, setCapa] = useState('');
+
+  const [autores, setAutores] = useState([]);
+  const [editoras, setEditoras] = useState([]);
+
+  useEffect(() => {
+    async function fetchDados() {
+      try {
+        const autoresResponse = await getAutores();
+        setAutores(autoresResponse);
+
+        const editorasResponse = await getEditoras();
+        setEditoras(editorasResponse);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      }
+    }
+
+    fetchDados();
+  }, []);
 
   return (
     <div
@@ -40,21 +59,27 @@ export function CadastroLivro() {
               onChange={(e) => setIsbn(e.target.value)}
             />
 
-            <input
-              type="text"
-              placeholder="Autor(a)"
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+            <select
+              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={autor}
               onChange={(e) => setAutor(e.target.value)}
-            />
+            >
+              <option value="">Selecione o Autor</option>
+              {autores.map((a) => (
+                <option key={a.id} value={a.id}>{a.nome}</option>
+              ))}
+            </select>
 
-            <input
-              type="text"
-              placeholder="Editora"
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+            <select
+              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={editora}
               onChange={(e) => setEditora(e.target.value)}
-            />
+            >
+              <option value="">Selecione a Editora</option>
+              {editoras.map((e) => (
+                <option key={e.id} value={e.id}>{e.nome}</option>
+              ))}
+            </select>
 
             <input
               type="text"
@@ -87,7 +112,7 @@ export function CadastroLivro() {
                 onChange={(e) => setCapa(e.target.files[0])}
               />
             </div>
-            
+
             <button
               type="submit"
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
@@ -98,5 +123,5 @@ export function CadastroLivro() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -23,7 +23,7 @@ export function Menu() {
             <MenuItem icon={<FiLogIn />} label="Login" to="/login" />
             <MenuItem icon={<FaSearch />} label="Pesquisar" to="/pesquisar" />
             <MenuItem icon={<FaArchive />} label="Catálogo" to="/catalogo" />
-            <MenuItem icon={<FaBook />} label="Empréstimos" />
+            <MenuItem icon={<FaBook />} label="Empréstimos" to="/emprestimo" />
             <MenuItem icon={<FaUser />} label="Meus Dados" to="/dados" />
 
             <div className="pt-2 border-t border-white/20">
