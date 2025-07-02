@@ -73,13 +73,13 @@ export function CadastroLivro() {
             </select>
 
             <select
-              className="w-full px-4 py-2 bg-black bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              className="w-full px-4 py-2 bg-white/30 bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={editora}
               onChange={(e) => setEditora(e.target.value)}
             >
-              <option value="">Selecione a Editora</option>
+              <option className="text-white bg-black" disabled value="">Selecione a Editora</option>
               {editoras.map((e) => (
-                <option key={e.id} value={e.id}>{e.nome}</option>
+                <option className="text-black bg-black bg-opacity-30" key={e.id} value={e.id}>{e.nome}</option>
               ))}
             </select>
 
