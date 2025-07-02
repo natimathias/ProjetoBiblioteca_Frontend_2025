@@ -15,11 +15,13 @@ export function CadastroLivro() {
   useEffect(() => {
     async function fetchDados() {
       try {
-        const autoresResponse = await getAutores();
-        setAutores(autoresResponse);
+        const autoresResponse = await fetch("http://localhost:8086/listarAutores");
+        const autoresData = await autoresResponse.json();
+        setAutores(autoresData);
 
-        const editorasResponse = await getEditoras();
-        setEditoras(editorasResponse);
+        const editorasResponse = await fetch("http://localhost:8086/listarEditoras");
+        const editorasData = await editorasResponse.json();
+        setEditoras(editorasData);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
