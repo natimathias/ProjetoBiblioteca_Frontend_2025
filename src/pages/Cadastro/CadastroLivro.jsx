@@ -73,7 +73,7 @@ export function CadastroLivro() {
             </select>
 
             <select
-              className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              className="w-full px-4 py-2 bg-black bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={editora}
               onChange={(e) => setEditora(e.target.value)}
             >
