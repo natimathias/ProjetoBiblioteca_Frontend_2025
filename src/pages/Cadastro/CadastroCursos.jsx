@@ -28,8 +28,7 @@ export function CadastroCursos() {
         alert("Ops, houve um erro ao cadastrar o curso.");
       });
   };
-
-
+  
   return (
     <div
       className="flex h-screen bg-cover bg-center"
