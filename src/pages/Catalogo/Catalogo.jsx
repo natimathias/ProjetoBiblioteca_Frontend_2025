@@ -3,18 +3,36 @@ import { useEffect, useState } from "react";
 export function Catalogo() {
   const [livros, setLivros] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:8086/listarLivros")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Dados recebidos da API:", data);
-        setLivros(data);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar livros:", error);
-        alert("Erro ao carregar o catálogo.");
-      });
-  }, []);
+useEffect(() => {
+  const buscarLivros = async () => {
+    try {
+      const response = await fetch("http://localhost:8086/listarLivros");
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Resposta da API:", data);
+
+      if (Array.isArray(data)) {
+        setLivros(data); // caso a API retorne um array direto
+      } else if (Array.isArray(data.livros)) {
+        setLivros(data.livros); // caso a API retorne um objeto com .livros
+      } else {
+        throw new Error("Formato de resposta inválido.");
+      }
+
+    } catch (erro) {
+      console.error("Erro ao carregar livros:", erro);
+      alert("Erro ao carregar catálogo: " + erro.message);
+    }
+  };
+
+  buscarLivros();
+}, []);
+
+
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black">
@@ -24,7 +42,7 @@ export function Catalogo() {
       />
       <div className="absolute inset-0 bg-black opacity-50 z-10" />
       <div
-        className="relative z-20 bg-white/10 p-10 rounded-2xl border border-red-500/50 shadow-xl w-full max-w-4xl text-white"
+        className="relative z-20 bg-white/10 p-10 rounded-2xl border border-red-500/50 shadow-xl w-full max-w-6xl text-white"
         style={{
           boxShadow: '0 0 25px rgba(255, 0, 0, 0.3)',
           border: '1px solid rgba(255, 0, 0, 0.4)',
@@ -35,20 +53,22 @@ export function Catalogo() {
         {livros.length === 0 ? (
           <p className="text-center text-gray-300">Nenhum livro encontrado.</p>
         ) : (
-          <ul className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {livros.map((livro, index) => (
-              <li
+              <div
                 key={index}
                 className="bg-white/20 p-4 rounded-lg shadow border border-white/30"
               >
-                <p><strong>Título:</strong> {livro.titulo}</p>
+                <img
+                  src={`http://localhost:8086/imagem/${livro.imagem}`}
+                  alt={`Capa de ${livro.titulo}`}
+                  className="w-full h-64 object-cover mb-4 rounded"
+                />
+                <h2 className="text-xl font-bold">{livro.titulo}</h2>
                 <p><strong>Autor:</strong> {livro.autor}</p>
-                <p><strong>Editora:</strong> {livro.editora}</p>
-                <p><strong>ISBN:</strong> {livro.isbn}</p>
-                {/* Adicione outros campos se necessário */}
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

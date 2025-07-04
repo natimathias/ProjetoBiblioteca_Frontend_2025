@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function CadastroLivro() {
   const [titulo, setTitulo] = useState('');
@@ -7,64 +8,74 @@ export function CadastroLivro() {
   const [editora, setEditora] = useState('');
   const [edicao, setEdicao] = useState('');
   const [qt_disponivel, setQt_disponivel] = useState('');
-  const [capa, setCapa] = useState('');
+  const [capa, setCapa] = useState(null);
 
   const [autores, setAutores] = useState([]);
   const [editoras, setEditoras] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchDados() {
       try {
-        const autoresResponse = await fetch("http://localhost:8086/listarAutores");
-        const autoresData = await autoresResponse.json();
-        setAutores(autoresData);
+        const resAutores = await fetch("http://localhost:8086/listarAutores");
+        const dataAutores = await resAutores.json();
+        setAutores(dataAutores);
 
-        const editorasResponse = await fetch("http://localhost:8086/listarEditoras");
-        const editorasData = await editorasResponse.json();
-        setEditoras(editorasData);
+        const resEditoras = await fetch("http://localhost:8086/listarEditoras");
+        const dataEditoras = await resEditoras.json();
+        setEditoras(dataEditoras);
       } catch (error) {
-        console.error("Erro ao carregar dados:", error);
+        console.error("Erro ao carregar autores/editoras:", error);
       }
     }
-
     fetchDados();
   }, []);
 
-   const realizarCadastro = (e) => {
+  const realizarCadastro = async (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:8086/cadastrarLivro", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ id: null, titulo, qt_disponivel, isbn, autor, editora, edicao, capa })
-    })
-      .then(async (response) => {
-        const resposta = await response.json();
-        alert(resposta.message);
-        setTitulo('');
-        setQt_disponivel('');
-        setIsbn('');
-        setAutor('');
-        setEditora('');
-        setEdicao('');
-        setCapa('');
-        navigate('/listarLivros');
-      })
-      .catch((error) => {
-        console.error("Erro ao cadastrar livro:", error);
-        alert("Ops, houve um erro ao cadastrar o livro.");
+    if (!titulo || !isbn || !autor || !editora || !edicao || !qt_disponivel || !capa) {
+      alert("Por favor, preencha todos os campos e selecione a capa.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("titulo", titulo);
+    formData.append("isbn", isbn);
+    formData.append("autor", autor);
+    formData.append("editora", editora);
+    formData.append("edicao", edicao);
+    formData.append("qt_disponivel", qt_disponivel);
+    formData.append("capa", capa);
+
+    try {
+      const response = await fetch("http://localhost:8086/cadastrarLivro", {
+        method: "POST",
+        body: formData,
       });
+
+      const data = await response.json();
+
+      alert(data.message || "Livro cadastrado com sucesso!");
+
+      setTitulo('');
+      setIsbn('');
+      setAutor('');
+      setEditora('');
+      setEdicao('');
+      setQt_disponivel('');
+      setCapa(null);
+
+      navigate('/listarLivros');
+    } catch (error) {
+      console.error("Erro ao cadastrar livro:", error);
+      alert("Erro ao cadastrar livro.");
+    }
   };
 
   return (
-    <div
-      className="flex h-screen bg-cover bg-center"
-      style={{
-        backgroundImage: 'url("/fundo_Locatario.png")',
-      }}
-    >
+    <div className="flex h-screen bg-cover bg-center" style={{ backgroundImage: 'url("/fundo_Locatario.png")' }}>
       <div className="w-full flex items-center justify-center bg-black bg-opacity-60">
         <div className="bg-gradient-to-br from-red-600/20 via-pink-700/10 to-purple-800/20 backdrop-blur-md rounded-3xl p-10 w-full max-w-md text-white shadow-[0_0_25px_#f87171] border border-red-400 transition-all duration-500 hover:scale-105">
           <div className="text-center mb-6">
@@ -72,7 +83,7 @@ export function CadastroLivro() {
             <p className="text-sm mt-1">Preencha os dados do livro</p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={realizarCadastro} className="space-y-4">
             <input
               type="text"
               placeholder="Título do Livro"
@@ -83,7 +94,7 @@ export function CadastroLivro() {
 
             <input
               type="text"
-              placeholder="Código do livro"
+              placeholder="Código do livro (ISBN)"
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={isbn}
               onChange={(e) => setIsbn(e.target.value)}
@@ -94,9 +105,9 @@ export function CadastroLivro() {
               value={autor}
               onChange={(e) => setAutor(e.target.value)}
             >
-              <option className="text-black bg-black bg-opacity-30" disabled value="">Selecione o Autor</option>
+              <option disabled value="">Selecione o Autor</option>
               {autores.map((a) => (
-                <option className="text-black bg-black bg-opacity-30" key={a.id} value={a.id}>{a.nome}</option>
+                <option key={a.id} value={a.id}>{a.nome}</option>
               ))}
             </select>
 
@@ -105,9 +116,9 @@ export function CadastroLivro() {
               value={editora}
               onChange={(e) => setEditora(e.target.value)}
             >
-              <option className="text-white bg-black" disabled value="">Selecione a Editora</option>
+              <option disabled value="">Selecione a Editora</option>
               {editoras.map((e) => (
-                <option className="text-black bg-black bg-opacity-30" key={e.id} value={e.id}>{e.nome}</option>
+                <option key={e.id} value={e.id}>{e.nome}</option>
               ))}
             </select>
 
@@ -127,8 +138,11 @@ export function CadastroLivro() {
               onChange={(e) => setQt_disponivel(e.target.value)}
             />
 
-  <div>
-              <label htmlFor="capa" className="block w-full px-4 py-2 text-center cursor-pointer bg-white bg-opacity-20 text-white rounded border border-white/30 hover:bg-opacity-30 focus:outline-none focus:ring focus:ring-red-300">
+            <div>
+              <label
+                htmlFor="capa"
+                className="block w-full px-4 py-2 text-center cursor-pointer bg-white bg-opacity-20 text-white rounded border border-white/30 hover:bg-opacity-30 focus:outline-none focus:ring focus:ring-red-300"
+              >
                 Selecionar Capa do Livro
               </label>
               <input
@@ -142,7 +156,7 @@ export function CadastroLivro() {
             </div>
 
             <button
-              onClick={realizarCadastro}
+              type="submit"
               className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
             >
               Cadastrar
