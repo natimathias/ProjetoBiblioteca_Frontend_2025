@@ -1,23 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios"; 
 
 export function Emprestimo() {
-  const livrosDisponiveis = [
-    { id: 1, titulo: "Dom Casmurro", autor: "Machado de Assis" },
-    { id: 2, titulo: "A Hora da Estrela", autor: "Clarice Lispector" },
-    { id: 3, titulo: "O Pequeno Príncipe", autor: "Antoine de Saint-Exupéry" },
-    { id: 4, titulo: "1984", autor: "George Orwell" },
-  ];
-
+  const [livrosDisponiveis, setLivrosDisponiveis] = useState([]);
   const [livroSelecionado, setLivroSelecionado] = useState(null);
   const [mensagem, setMensagem] = useState("");
 
-  function confirmarEmprestimo() {
+  useEffect(() => {
+    async function carregarLivros() {
+      try {
+        const resposta = await axios.get("http://localhost:8086/listarLivros");
+        setLivrosDisponiveis(resposta.data);
+      } catch (erro) {
+        console.error("Erro ao carregar livros:", erro);
+        setMensagem("Erro ao carregar livros disponíveis.");
+      }
+    }
+
+    carregarLivros();
+  }, []);
+
+  async function confirmarEmprestimo() {
     if (!livroSelecionado) {
       setMensagem("Por favor, selecione um livro para emprestar.");
       return;
     }
-    setMensagem(`Você emprestou: "${livroSelecionado.titulo}" de ${livroSelecionado.autor}.`);
-    setLivroSelecionado(null);
+
+    try {
+      const emprestimo = {
+        id_locatario: 1, 
+        id_livro: livroSelecionado.id,
+      };
+
+      await axios.post("http://localhost:8086/realizarEmprestimo", emprestimo);
+      setMensagem(`✅ Empréstimo realizado com sucesso: "${livroSelecionado.titulo}"`);
+      setLivroSelecionado(null);
+
+      const atualizados = await axios.get("http://localhost:8086/listarLivros");
+      setLivrosDisponiveis(atualizados.data);
+    } catch (erro) {
+      console.error("Erro ao confirmar empréstimo:", erro);
+      setMensagem("❌ Não foi possível realizar o empréstimo.");
+    }
   }
 
   return (
@@ -49,7 +73,9 @@ export function Emprestimo() {
               }`}
               onClick={() => setLivroSelecionado(livro)}
             >
-              <strong>{livro.titulo}</strong> — {livro.autor}
+              <strong>{livro.titulo}</strong> — {livro.autor || livro.nome_autor}
+              <br />
+              <span className="text-sm">Disponíveis: {livro.qt_disponivel}</span>
             </li>
           ))}
         </ul>
@@ -61,7 +87,9 @@ export function Emprestimo() {
           Confirmar Empréstimo
         </button>
 
-        {mensagem && <p className="mt-4 text-center text-green-400">{mensagem}</p>}
+        {mensagem && (
+          <p className="mt-4 text-center text-green-400">{mensagem}</p>
+        )}
       </div>
     </div>
   );
