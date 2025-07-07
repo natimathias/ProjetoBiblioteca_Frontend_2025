@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function CadastroLocatario() {
   const [nome, setNome] = useState("");
-  const [dataNascimento, setData_nascimento] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -18,13 +18,13 @@ export function CadastroLocatario() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ id: null, nome, dataNascimento, email, senha, telefone, tipo })
+      body: JSON.stringify({ nome, data_nascimento: dataNascimento, email, senha, telefone, tipo })
     })
       .then(async (response) => {
         const resposta = await response.json();
         alert(resposta.message);
         setNome('');
-        setData_nascimento('');
+        setDataNascimento('');
         setEmail('');
         setSenha('');
         setTelefone('');
@@ -61,7 +61,7 @@ export function CadastroLocatario() {
             />
             <input
               type="date"
-              onChange={(e) => setData_nascimento(e.target.value)}
+              onChange={(e) => setDataNascimento(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
