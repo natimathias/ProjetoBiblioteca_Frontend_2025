@@ -15,6 +15,7 @@ import { ListagemEditoras } from "./pages/Listagem/ListagemEditoras";
 import { ListagemAutores } from "./pages/Listagem/listagemAutores";
 import { ListagemCursos } from "./pages/Listagem/ListagemCursos";
 import { ListagemLocatarios } from "./pages/Listagem/listagemLocatarios";
+import { ListagemLivros } from "./pages/Listagem/ListagemLivros";
 
 export function Rotas() {
     return (
@@ -36,6 +37,7 @@ export function Rotas() {
                 <Route path="/listarEditoras" element={<ListagemEditoras/>}/>
                 <Route path="/listarCursos" element={<ListagemCursos/>}/>
                 <Route path="/listarLocatarios" element={<ListagemLocatarios/>}/>
+                <Route path="/listarLivros" element={<ListagemLivros/>}/>
             </Routes>
         </BrowserRouter>
     )

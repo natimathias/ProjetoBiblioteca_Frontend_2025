@@ -66,7 +66,6 @@ export function CadastroLivro() {
       setEdicao('');
       setQt_disponivel('');
       setCapa(null);
-
       navigate('/listarLivros');
     } catch (error) {
       console.error("Erro ao cadastrar livro:", error);

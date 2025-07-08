@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios"; 
+// import axios from "axios"; 
 
 export function Emprestimo() {
   const [livrosDisponiveis, setLivrosDisponiveis] = useState([]);
@@ -33,14 +33,14 @@ export function Emprestimo() {
       };
 
       await axios.post("http://localhost:8086/realizarEmprestimo", emprestimo);
-      setMensagem(`✅ Empréstimo realizado com sucesso: "${livroSelecionado.titulo}"`);
+      setMensagem(`Empréstimo realizado com sucesso: "${livroSelecionado.titulo}"`);
       setLivroSelecionado(null);
 
       const atualizados = await axios.get("http://localhost:8086/listarLivros");
       setLivrosDisponiveis(atualizados.data);
     } catch (erro) {
       console.error("Erro ao confirmar empréstimo:", erro);
-      setMensagem("❌ Não foi possível realizar o empréstimo.");
+      setMensagem("Não foi possível realizar o empréstimo.");
     }
   }
 

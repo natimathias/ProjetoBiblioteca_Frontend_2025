@@ -23,7 +23,7 @@ export function ListagemLivros() {
 
   const removerLivro = (id) => {
     fetch(`http://localhost:8086/removerLivro/${id}`, {
-      method: "DELETE",
+      method: "POST",
     })
       .then(async (res) => {
         const resposta = await res.json();
