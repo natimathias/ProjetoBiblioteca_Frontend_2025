@@ -3,36 +3,27 @@ import { useEffect, useState } from "react";
 export function Catalogo() {
   const [livros, setLivros] = useState([]);
 
-useEffect(() => {
-  const buscarLivros = async () => {
-    try {
-      const response = await fetch("http://localhost:8086/listarLivros");
+  useEffect(() => {
+    const buscarLivros = async () => {
+      fetch("http://localhost:8086/listarLivros")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          alert(data.message);  
+          setLivros(data);
+        })
+        .catch(erro => {
+          console.error("Erro ao carregar livros:", erro);
+          alert("Erro ao carregar catálogo: " + erro.message);
+        });
+    };
 
-      if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Resposta da API:", data);
-
-      if (Array.isArray(data)) {
-        setLivros(data); // caso a API retorne um array direto
-      } else if (Array.isArray(data.livros)) {
-        setLivros(data.livros); // caso a API retorne um objeto com .livros
-      } else {
-        throw new Error("Formato de resposta inválido.");
-      }
-
-    } catch (erro) {
-      console.error("Erro ao carregar livros:", erro);
-      alert("Erro ao carregar catálogo: " + erro.message);
-    }
-  };
-
-  buscarLivros();
-}, []);
-
-
+    buscarLivros();
+  }, []);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black">
@@ -53,19 +44,20 @@ useEffect(() => {
         {livros.length === 0 ? (
           <p className="text-center text-gray-300">Nenhum livro encontrado.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {livros.map((livro, index) => (
               <div
                 key={index}
-                className="bg-white/20 p-4 rounded-lg shadow border border-white/30"
+                className="bg-white/20 p-4 rounded-lg shadow border border-white/30 max-w-md mx-auto"
               >
                 <img
-                  src={`http://localhost:8086/imagem/${livro.imagem}`}
-                  alt={`Capa de ${livro.titulo}`}
-                  className="w-full h-64 object-cover mb-4 rounded"
+                  src={`http://localhost:8086/imagens/${livro.caminho_imagens}`}
+                  alt="Capa"
+                  className="w-full h-48 object-cover mb-4 rounded"
                 />
                 <h2 className="text-xl font-bold">{livro.titulo}</h2>
-                <p><strong>Autor:</strong> {livro.autor}</p>
+                <p><strong>Autor:</strong> {livro.autor_nome}</p>
+                <p><strong>Categoria:</strong> {livro.categoria_nome}</p>
               </div>
             ))}
           </div>

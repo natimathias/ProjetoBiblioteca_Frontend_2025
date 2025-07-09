@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Trash2, Edit } from "lucide-react";
 
 export function ListagemEditoras() {
   const [editoras, setEditoras] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate('');
+  const navigate = useNavigate();
 
   const buscarEditoras = () => {
     fetch("http://localhost:8086/listarEditoras")
@@ -31,12 +32,16 @@ export function ListagemEditoras() {
         const resposta = await res.json();
         alert(resposta.message);
         buscarEditoras();
-        navigate('/cadastroEditora');
+        navigate("/cadastroEditora");
       })
       .catch((error) => {
         console.error("Erro ao remover editora:", error);
         alert("Erro ao remover editora.");
       });
+  };
+
+  const editarEditora = (id) => {
+    navigate(`/editarEditora/${id}`);
   };
 
   return (
@@ -52,20 +57,31 @@ export function ListagemEditoras() {
             <p className="text-center">Carregando...</p>
           ) : editoras.length ? (
             <ul className="space-y-4 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-blue-500">
-              {editoras.map((editora, index) => (
+              {editoras.map((editora) => (
                 <li
-                  key={index}
+                  key={editora.id}
                   className="border border-white/30 rounded-lg p-4 flex justify-between items-center bg-white bg-opacity-10"
                 >
                   <div>
-                    <h2 className="text-xl font-semibold">{editora.nome}</h2>
+                    <h2 className="text-xl font-semibold">{editora.nome || "Nome não informado"}</h2>
                   </div>
-                  <button
-                    onClick={() => removerEditora(editora.id)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                  >
-                    Remover
-                  </button>
+
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => removerEditora(editora.id)}
+                      title="Remover"
+                      className="hover:text-red-500 transition"
+                    >
+                      <Trash2 size={22} />
+                    </button>
+                    <button
+                      onClick={() => editarEditora(editora.id)}
+                      title="Editar"
+                      className="hover:text-yellow-400 transition"
+                    >
+                      <Edit size={22} />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

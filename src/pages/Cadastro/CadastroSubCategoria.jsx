@@ -15,9 +15,9 @@ export function CadastroSubcategoria() {
     })
       .then(async (response) => {
         const resposta = await response.json();
-        alert(resposta.message || "Subcategoria cadastrada com sucesso!");
+        alert(resposta.message);
         setNome('');
-        navigate('/listarSubcategorias'); // ajuste conforme sua rota
+        navigate('/listarSubcategorias'); 
       })
       .catch((error) => {
         console.error("Erro ao cadastrar subcategoria:", error);

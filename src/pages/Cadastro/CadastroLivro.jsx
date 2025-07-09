@@ -70,7 +70,6 @@ export function CadastroLivro() {
       });
 
       const data = await response.json();
-
       alert(data.message);
 
       setTitulo('');
