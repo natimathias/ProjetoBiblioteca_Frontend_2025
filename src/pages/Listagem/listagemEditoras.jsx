@@ -24,7 +24,7 @@ export function ListagemEditoras() {
   }, []);
 
   const removerEditora = (id) => {
-    fetch(`http://localhost:8086/removerEditora/${id}`, {
+    fetch(`http://localhost:8086/deixarIndisponivelEditora/${id}`, {
       method: "GET",
     })
       .then(async (res) => {

@@ -9,9 +9,13 @@ export function CadastroLivro() {
   const [edicao, setEdicao] = useState('');
   const [qt_disponivel, setQt_disponivel] = useState('');
   const [capa, setCapa] = useState(null);
+  const [categoria, setCategoria] = useState('');
+  const [subcategoria, setSubcategoria] = useState('');
 
   const [autores, setAutores] = useState([]);
   const [editoras, setEditoras] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [subCategorias, setSubCategorias] = useState([]);
 
   const navigate = useNavigate();
 
@@ -25,8 +29,16 @@ export function CadastroLivro() {
         const resEditoras = await fetch("http://localhost:8086/listarEditoras");
         const dataEditoras = await resEditoras.json();
         setEditoras(dataEditoras);
+
+        const resCategorias = await fetch("http://localhost:8086/listarCategorias")
+        const dataCategorias = await resCategorias.json();
+        setCategorias(dataCategorias);
+
+        const resSubCategorias = await fetch("http://localhost:8086/listarSubCategorias")
+        const dataSubCategorias = await resSubCategorias.json();
+        setSubCategorias(dataSubCategorias);
       } catch (error) {
-        console.error("Erro ao carregar autores/editoras:", error);
+        console.error("Erro ao carregar autores/editoras/categorias/subcategorias:", error);
       }
     }
     fetchDados();
@@ -35,8 +47,8 @@ export function CadastroLivro() {
   const realizarCadastro = async (e) => {
     e.preventDefault();
 
-    if (!titulo || !isbn || !autor || !editora || !edicao || !qt_disponivel || !capa) {
-      alert("Por favor, preencha todos os campos e selecione a capa.");
+    if (!titulo || !isbn || !autor || !editora || !edicao || !qt_disponivel || !capa || !categoria || !subcategoria) {
+      alert("Por favor, preencha todos os campos obrigatórios e selecione a capa.");
       return;
     }
 
@@ -48,6 +60,8 @@ export function CadastroLivro() {
     formData.append("edicao", edicao);
     formData.append("qt_disponivel", qt_disponivel);
     formData.append("capa", capa);
+    formData.append("categoria", categoria);
+    formData.append("subcategoria", subcategoria);
 
     try {
       const response = await fetch("http://localhost:8086/cadastrarLivro", {
@@ -57,7 +71,7 @@ export function CadastroLivro() {
 
       const data = await response.json();
 
-      alert(data.message || "Livro cadastrado com sucesso!");
+      alert(data.message);
 
       setTitulo('');
       setIsbn('');
@@ -66,6 +80,8 @@ export function CadastroLivro() {
       setEdicao('');
       setQt_disponivel('');
       setCapa(null);
+      setCategoria('');
+      setSubcategoria('');
       navigate('/listarLivros');
     } catch (error) {
       console.error("Erro ao cadastrar livro:", error);
@@ -100,24 +116,24 @@ export function CadastroLivro() {
             />
 
             <select
-              className="w-full px-4 py-2 bg-white/30 bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              className="w-full px-4 py-2 bg-white/30 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={autor}
               onChange={(e) => setAutor(e.target.value)}
             >
               <option disabled value="">Selecione o Autor</option>
               {autores.map((a) => (
-                <option key={a.id} value={a.id}>{a.nome}</option>
+                <option className="text-black bg-black bg-opacity-30" key={a.id} value={a.id}>{a.nome}</option>
               ))}
             </select>
 
             <select
-              className="w-full px-4 py-2 bg-white/30 bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              className="w-full px-4 py-2 bg-white/30 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
               value={editora}
               onChange={(e) => setEditora(e.target.value)}
             >
               <option disabled value="">Selecione a Editora</option>
               {editoras.map((e) => (
-                <option key={e.id} value={e.id}>{e.nome}</option>
+                <option className="text-black bg-black bg-opacity-30" key={e.id} value={e.id}>{e.nome}</option>
               ))}
             </select>
 
@@ -136,6 +152,28 @@ export function CadastroLivro() {
               value={qt_disponivel}
               onChange={(e) => setQt_disponivel(e.target.value)}
             />
+
+            <select
+              className="w-full px-4 py-2 bg-white/30 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+            >
+              <option disabled value="">Selecione a Categoria</option>
+              {categorias.map((e) => (
+                <option className="text-black bg-black bg-opacity-30" key={e.id} value={e.id}>{e.nome}</option>
+              ))}
+            </select>
+
+            <select
+              className="w-full px-4 py-2 bg-white/30 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
+              value={subcategoria}
+              onChange={(e) => setSubcategoria(e.target.value)}
+            >
+              <option disabled value="">Selecione a SubCategoria</option>
+              {subCategorias.map((e) => (
+                <option className="text-black bg-black bg-opacity-30" key={e.id} value={e.id}>{e.nome}</option>
+              ))}
+            </select>
 
             <div>
               <label

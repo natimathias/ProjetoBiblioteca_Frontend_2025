@@ -7,6 +7,10 @@ export function CadastroAutor() {
 
   const realizarCadastro = (e) => {
     e.preventDefault();
+    if (!nome) {
+      alert("O campo é obrigatório!");
+      return;
+    }
 
     fetch("http://localhost:8086/cadastrarAutor", {
       method: "POST",

@@ -16,7 +16,7 @@ export function ListagemCursos() {
         return res.json();
       })
       .then((resp) => {
-        console.log("Cursos carregados:", resp); // DEBUG
+        console.log("Cursos carregados:", resp); 
         if (Array.isArray(resp)) {
           setCursos(resp);
         } else {
@@ -37,12 +37,12 @@ export function ListagemCursos() {
   }, []);
 
   const removerCurso = (id) => {
-    fetch(`http://localhost:8086/removerCurso/${id}`, {
+    fetch(`http://localhost:8086/deixarIndisponivelCurso/${id}`, {
       method: "GET",
     })
       .then(async (res) => {
         const resposta = await res.json();
-        alert(resposta.message || "Curso removido com sucesso!");
+        alert(resposta.message);
         buscarCursos();
       })
       .catch((error) => {

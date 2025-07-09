@@ -16,6 +16,10 @@ import { ListagemAutores } from "./pages/Listagem/listagemAutores";
 import { ListagemCursos } from "./pages/Listagem/ListagemCursos";
 import { ListagemLocatarios } from "./pages/Listagem/listagemLocatarios";
 import { ListagemLivros } from "./pages/Listagem/ListagemLivros";
+import { CadastroCategoria } from "./pages/Cadastro/CadastroCategoria";
+import { ListagemCategorias } from "./pages/Listagem/ListagemCategoria";
+import { CadastroSubcategoria } from "./pages/Cadastro/CadastroSubCategoria";
+import { ListagemSubcategorias } from "./pages/Listagem/ListagemSubCategoria";
 
 export function Rotas() {
     return (
@@ -33,11 +37,15 @@ export function Rotas() {
                 <Route path="/cadastroEditora" element= {<CadastroEditora/>}/>
                 <Route path="/cadastroAutor" element={<CadastroAutor/>}/>
                 <Route path="/cadastroCurso" element={<CadastroCursos/>}/>
+                <Route path="/cadastroCategoria" element={<CadastroCategoria/>}/>
+                <Route path="/cadastroSubCategoria" element={<CadastroSubcategoria/>}/>
                 <Route path="/listarAutores" element={<ListagemAutores/>}/>
                 <Route path="/listarEditoras" element={<ListagemEditoras/>}/>
                 <Route path="/listarCursos" element={<ListagemCursos/>}/>
                 <Route path="/listarLocatarios" element={<ListagemLocatarios/>}/>
                 <Route path="/listarLivros" element={<ListagemLivros/>}/>
+                <Route path="/listarCategorias" element={<ListagemCategorias/>}/>
+                <Route path="/listarSubCategorias" element={<ListagemSubcategorias/>}/>
             </Routes>
         </BrowserRouter>
     )

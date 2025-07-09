@@ -1,51 +1,49 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit } from "lucide-react";
 
-export function ListagemAutores() {
-  const [autores, setAutores] = useState([]);
+export function ListagemSubcategorias() {
+  const [subcategorias, setSubcategorias] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const buscarAutores = () => {
-    fetch("http://localhost:8086/listarAutores")
+  const buscarSubcategorias = () => {
+    fetch("http://localhost:8086/listarSubcategorias")
       .then((res) => res.json())
       .then((resp) => {
-        setAutores(resp);
+        setSubcategorias(resp);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Erro ao buscar autores:", error);
+        console.error("Erro ao buscar subcategorias:", error);
         setLoading(false);
-        setAutores([]);
+        setSubcategorias([]);
       });
   };
 
   useEffect(() => {
-    buscarAutores();
+    buscarSubcategorias();
   }, []);
 
-  const removerAutor = (id) => {
-    console.log(id);
-    fetch(`http://localhost:8086/deixarIndisponivelAutor/${id}`, {
+  const removerSubcategoria = (id) => {
+    fetch(`http://localhost:8086/deixarIndisponivelSubcategoria/${id}`, {
       method: "GET",
     })
       .then(async (res) => {
         const resposta = await res.json();
         alert(resposta.message);
-        buscarAutores();
-        navigate("/cadastroAutor");
+        buscarSubcategorias();
+        navigate("/cadastroSubcategoria");
       })
       .catch((error) => {
-        console.error("Erro ao remover autor:", error);
-        alert("Erro ao remover autor.");
+        console.error("Erro ao remover subcategoria:", error);
+        alert("Erro ao remover subcategoria.");
       });
   };
 
-    const editarAutor = (id) => {
-    navigate(`/editarAutor/${id}`);
+  const editarSubcategoria = (id) => {
+    navigate(`/editarSubcategoria/${id}`);
   };
-
 
   return (
     <div
@@ -54,31 +52,31 @@ export function ListagemAutores() {
     >
       <div className="w-full flex items-center justify-center bg-black bg-opacity-60">
         <div className="bg-gradient-to-br from-red-600/20 via-pink-700/10 to-purple-800/20 backdrop-blur-md rounded-3xl p-10 w-full max-w-2xl text-white shadow-[0_0_25px_#f87171] border border-red-400">
-          <h1 className="text-3xl font-bold text-center mb-6">Autores Cadastrados</h1>
+          <h1 className="text-3xl font-bold text-center mb-6">Subcategorias Cadastradas</h1>
 
           {loading ? (
             <p className="text-center">Carregando...</p>
-          ) : autores.length ? (
+          ) : subcategorias.length ? (
             <ul className="space-y-4 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-red-500">
-              {autores.map((autor) => (
+              {subcategorias.map((sub) => (
                 <li
-                  key={autor.id}
+                  key={sub.id}
                   className="border border-white/30 rounded-lg p-4 flex justify-between items-center bg-white bg-opacity-10"
                 >
                   <div>
-                    <h2 className="text-xl font-semibold">{autor.nome || "Nome não informado"}</h2>
+                    <h2 className="text-xl font-semibold">{sub.nome || "Nome não informado"}</h2>
                   </div>
 
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => removerAutor(autor.id)}
+                      onClick={() => removerSubcategoria(sub.id)}
                       title="Remover"
                       className="hover:text-red-500 transition"
                     >
                       <Trash2 size={22} />
                     </button>
                     <button
-                      onClick={() => editarAutor(autor.id)}
+                      onClick={() => editarSubcategoria(sub.id)}
                       title="Editar"
                       className="hover:text-yellow-400 transition"
                     >
@@ -89,7 +87,7 @@ export function ListagemAutores() {
               ))}
             </ul>
           ) : (
-            <p className="text-center">Não há autores cadastrados.</p>
+            <p className="text-center">Não há subcategorias cadastradas.</p>
           )}
         </div>
       </div>

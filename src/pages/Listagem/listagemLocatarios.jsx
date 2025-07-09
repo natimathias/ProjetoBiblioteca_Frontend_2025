@@ -24,7 +24,7 @@ export function ListagemLocatarios() {
   }, []);
 
   const removerLocatario = (id) => {
-    fetch(`http://localhost:8086/removerLocatario/${id}`, {
+    fetch(`http://localhost:8086/deixarIndisponivelLocatario/${id}`, {
       method: "GET",
     })
       .then(async (res) => {
