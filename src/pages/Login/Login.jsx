@@ -1,9 +1,35 @@
 import { useState } from 'react';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha] = useState('');
+  const navigate = useNavigate();
+
+  const realizarLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:8086/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: usuario, senha }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Login realizado com sucesso!');
+        navigate('/catalogo');
+      } else {
+        alert(data.message || 'Usuário não encontrado. Faça o cadastro.');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      alert('Erro ao conectar ao servidor.');
+    }
+  };
 
   return (
     <div
@@ -27,6 +53,8 @@ export function Login() {
             <input
               type="text"
               placeholder="Locatário"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
               className="bg-transparent w-full py-2 text-white placeholder-white outline-none"
             />
           </div>
@@ -36,6 +64,8 @@ export function Login() {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
               className="bg-transparent w-full py-2 text-white placeholder-white outline-none"
             />
             {showPassword ? (
@@ -51,12 +81,21 @@ export function Login() {
             )}
           </div>
 
-          <button className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold">
+          <button
+            onClick={realizarLogin}
+            className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
+          >
             Entrar
           </button>
 
+          <p
+            onClick={() => navigate('/CadastroLocatario')}
+            className="mt-4 text-center text-sm text-pink-400 cursor-pointer hover:underline"
+          >
+            Cadastre-se
+          </p>
         </div>
       </div>
     </div>
-   );
- }
+  );
+}
