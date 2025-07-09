@@ -65,7 +65,7 @@ export function EditarLivro() {
     })
       .then(async res => {
         const resposta = await res.json();
-        alert(resposta.message || "Livro atualizado com sucesso!");
+        alert(resposta.message);
         navigate("/listarLivros");
       })
       .catch(err => {
@@ -79,17 +79,17 @@ export function EditarLivro() {
       className="flex h-screen items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: 'url("/fundo_Locatario.png")' }}
     >
-      <div className="bg-gradient-to-br from-yellow-600/20 via-orange-700/10 to-red-800/20 backdrop-blur-md p-10 rounded-3xl text-white w-full max-w-md shadow-[0_0_25px_#facc15] border border-yellow-400">
+      <div className="bg-gradient-to-br from-yellow-600/20 via-orange-700/10 to-red-800/20 backdrop-blur-md p-10 rounded-3xl text-white w-full max-w-xl shadow-[0_0_25px_#facc15] border border-yellow-400 transition-all duration-500 hover:scale-105">
         <h1 className="text-3xl font-bold text-center mb-2">Edição de Livro</h1>
         <p className="text-sm text-center mb-6">Atualize os dados do livro</p>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSalvar}>
           <input
             type="text"
             placeholder="Título do livro"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-yellow-300"
           />
 
           <input
@@ -97,13 +97,13 @@ export function EditarLivro() {
             placeholder="Código do livro (ISBN)"
             value={isbn}
             onChange={(e) => setIsbn(e.target.value)}
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-yellow-300"
           />
 
           <select
             value={autorId}
             onChange={(e) => setAutorId(e.target.value)}
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none"
           >
             <option value="">Selecione o Autor</option>
             {autores.map((autor) => (
@@ -114,7 +114,7 @@ export function EditarLivro() {
           <select
             value={editoraId}
             onChange={(e) => setEditoraId(e.target.value)}
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none"
           >
             <option value="">Selecione a Editora</option>
             {editoras.map((editora) => (
@@ -127,7 +127,7 @@ export function EditarLivro() {
             placeholder="Edição"
             value={edicao}
             onChange={(e) => setEdicao(e.target.value)}
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-yellow-300"
           />
 
           <input
@@ -135,7 +135,7 @@ export function EditarLivro() {
             placeholder="Quantidade disponível"
             value={quantidade}
             onChange={(e) => setQuantidade(e.target.value)}
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-yellow-300"
           />
 
           <select
@@ -168,7 +168,7 @@ export function EditarLivro() {
           />
 
           <button
-            onClick={handleSalvar}
+            type="submit"
             className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
           >
             Salvar Alterações

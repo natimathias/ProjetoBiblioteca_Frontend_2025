@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function EditarLocatario() {
+  const { id } = useParams();
   const [nome, setNome] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+  const [data_nascimento, setData_nascimento] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
   const [tipo, setTipo] = useState("");
 
-  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function EditarLocatario() {
       .then(res => res.json())
       .then(data => {
         setNome(data.nome);
-        setDataNascimento(data.data_nascimento?.substring(0, 10)); // yyyy-mm-dd
+        setData_nascimento(data.data_nascimento?.substring(0, 10));
         setEmail(data.email);
         setSenha(data.senha);
         setTelefone(data.telefone);
@@ -32,7 +32,7 @@ export function EditarLocatario() {
   const handleSalvar = (e) => {
     e.preventDefault();
 
-    if (!nome || !dataNascimento || !email || !senha || !telefone || !tipo) {
+    if (!nome || !data_nascimento || !email || !senha || !telefone || !tipo) {
       alert("Todos os campos são obrigatórios.");
       return;
     }
@@ -40,11 +40,11 @@ export function EditarLocatario() {
     fetch(`http://localhost:8086/editarLocatario/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, nome, data_nascimento: dataNascimento, email, senha, telefone, tipo }),
+      body: JSON.stringify({ id, nome, data_nascimento, email, senha, telefone, tipo }),
     })
       .then(async (res) => {
         const resposta = await res.json();
-        alert(resposta.message || "Locatário atualizado com sucesso!");
+        alert(resposta.message);
         navigate("/listarLocatarios");
       })
       .catch(err => {
@@ -58,24 +58,24 @@ export function EditarLocatario() {
       className="flex h-screen items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: 'url("/fundo_Locatario.png")' }}
     >
-      <div className="bg-gradient-to-br from-red-600/20 via-pink-700/10 to-purple-800/20 backdrop-blur-md p-10 rounded-3xl text-white w-full max-w-md shadow-[0_0_25px_#f87171] border border-red-400">
+      <div className="bg-gradient-to-br from-red-600/20 via-pink-700/10 to-purple-800/20 backdrop-blur-md p-10 rounded-3xl text-white w-full max-w-md shadow-[0_0_25px_#f87171] border border-red-400 transition-all duration-500 hover:scale-105">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold">Edição de Locatário</h1>
           <p className="text-sm mt-1">Atualize os dados abaixo</p>
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSalvar}>
           <input
             type="text"
             placeholder="Nome completo"
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
           />
 
           <input
             type="date"
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             value={dataNascimento}
             onChange={(e) => setDataNascimento(e.target.value)}
           />
@@ -83,7 +83,7 @@ export function EditarLocatario() {
           <input
             type="email"
             placeholder="E-mail"
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -91,7 +91,7 @@ export function EditarLocatario() {
           <input
             type="text"
             placeholder="Senha"
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
@@ -99,13 +99,13 @@ export function EditarLocatario() {
           <input
             type="text"
             placeholder="Telefone"
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
           />
 
           <select
-            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30"
+            className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             value={tipo}
             onChange={(e) => setTipo(e.target.value)}
           >
@@ -115,7 +115,7 @@ export function EditarLocatario() {
           </select>
 
           <button
-            onClick={handleSalvar}
+            type="submit"
             className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
           >
             Salvar Alterações

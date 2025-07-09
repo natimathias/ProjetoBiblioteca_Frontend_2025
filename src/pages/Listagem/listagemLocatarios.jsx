@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Trash2, Edit } from "lucide-react";
 
 export function ListagemLocatarios() {
   const [locatarios, setLocatarios] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate('');
+  const navigate = useNavigate();
 
   const buscarLocatarios = () => {
     fetch("http://localhost:8086/listarLocatarios")
@@ -31,12 +32,16 @@ export function ListagemLocatarios() {
         const resposta = await res.json();
         alert(resposta.message);
         buscarLocatarios();
-        navigate('/cadastroLocatario')
+        navigate('/cadastroLocatario');
       })
       .catch((error) => {
         console.error("Erro ao remover locatário:", error);
         alert("Erro ao remover locatário.");
       });
+  };
+
+  const editarLocatario = (id) => {
+    navigate(`/editarLocatario/${id}`); 
   };
 
   return (
@@ -52,22 +57,30 @@ export function ListagemLocatarios() {
             <p className="text-center">Carregando...</p>
           ) : locatarios.length ? (
             <ul className="space-y-4 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-green-500">
-              {locatarios.map((locatario, index) => (
+              {locatarios.map((locatario) => (
                 <li
-                  key={index}
+                  key={locatario.id}
                   className="border border-white/30 rounded-lg p-4 flex justify-between items-center bg-white bg-opacity-10"
                 >
                   <div>
                     <h2 className="text-xl font-semibold">{locatario.nome}</h2>
-                    <p className="text-sm text-white/80">CPF: {locatario.cpf}</p>
-                    <p className="text-sm text-white/80">Curso: {locatario.curso}</p>
                   </div>
-                  <button
-                    onClick={() => removerLocatario(locatario.id)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-                  >
-                    Remover
-                  </button>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => removerLocatario(locatario.id)}
+                      title="Remover"
+                      className="hover:text-red-500 transition"
+                    >
+                      <Trash2 size={22} />
+                    </button>
+                    <button
+                      onClick={() => editarLocatario(locatario.id)}
+                      title="Editar"
+                      className="hover:text-yellow-400 transition"
+                    >
+                      <Edit size={22} />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

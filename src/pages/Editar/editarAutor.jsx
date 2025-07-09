@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function EditarAutor() {
-  const [nome, setNome] = useState("");
   const { id } = useParams();
+  const [nome, setNome] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Buscar os dados do autor pelo ID
     fetch(`http://localhost:8086/autor/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -21,6 +20,7 @@ export function EditarAutor() {
 
   const salvarAlteracoes = (e) => {
     e.preventDefault();
+
     if (!nome) {
       alert("O nome do autor é obrigatório.");
       return;
@@ -55,7 +55,7 @@ export function EditarAutor() {
           <p className="text-sm mt-1">Atualize o nome do autor</p>
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={salvarAlteracoes}>
           <input
             type="text"
             placeholder="Nome do Autor"
@@ -65,7 +65,7 @@ export function EditarAutor() {
           />
 
           <button
-            onClick={salvarAlteracoes}
+            type="submit"
             className="w-full bg-black bg-opacity-80 hover:bg-opacity-100 transition duration-300 text-white py-2 rounded-lg font-semibold"
           >
             Salvar Alterações

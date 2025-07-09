@@ -24,7 +24,6 @@ export function Menu() {
             <MenuItem icon={<FaSearch />} label="Pesquisar" to="/pesquisar" />
             <MenuItem icon={<FaArchive />} label="Catálogo" to="/catalogo" />
             <MenuItem icon={<FaBook />} label="Empréstimos" to="/emprestimo" />
-            <MenuItem icon={<FaUser />} label="Meus Dados" to="/dados" />
 
             <div className="pt-2 border-t border-white/20">
               <MenuItem icon={<FaBook />} label="Menu Bibliotecário" to="/acessoBibliotecario" />

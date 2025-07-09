@@ -12,8 +12,7 @@ export function Catalogo() {
           }
           return response.json();
         })
-        .then(data => {
-          alert(data.message);  
+        .then(data => {  
           setLivros(data);
         })
         .catch(erro => {

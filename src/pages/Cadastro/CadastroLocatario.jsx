@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function CadastroLocatario() {
   const [nome, setNome] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+  const [data_nascimento, setData_nascimento] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -13,18 +13,23 @@ export function CadastroLocatario() {
   const realizarCadastro = (e) => {
     e.preventDefault();
 
+    if (!nome || !data_nascimento || !email || !senha || !telefone || !tipo) {
+      alert("Por favor, preencha todos os campos antes de continuar.");
+      return;
+    }
+
     fetch("http://localhost:8086/cadastrarLocatario", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ nome, data_nascimento: dataNascimento, email, senha, telefone, tipo })
+      body: JSON.stringify({ nome, data_nascimento, email, senha, telefone, tipo })
     })
       .then(async (response) => {
         const resposta = await response.json();
-        alert(resposta.message);
+        alert(resposta.message || resposta.mensagem);
         setNome('');
-        setDataNascimento('');
+        setData_nascimento('');
         setEmail('');
         setSenha('');
         setTelefone('');
@@ -56,29 +61,34 @@ export function CadastroLocatario() {
             <input
               type="text"
               placeholder="Nome completo"
+              value={nome}
               onChange={(e) => setNome(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="date"
-              onChange={(e) => setDataNascimento(e.target.value)}
+              value={data_nascimento}
+              onChange={(e) => setData_nascimento(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="email"
               placeholder="E-mail"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="password"
               placeholder="Senha"
+              value={senha}
               onChange={(e) => setSenha(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />
             <input
               type="tel"
               placeholder="Telefone"
+              value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
               className="w-full px-4 py-2 bg-white bg-opacity-20 text-white placeholder-white rounded border border-white/30 focus:outline-none focus:ring focus:ring-red-300"
             />

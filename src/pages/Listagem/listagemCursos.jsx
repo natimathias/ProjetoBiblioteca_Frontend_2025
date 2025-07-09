@@ -52,7 +52,7 @@ export function ListagemCursos() {
   };
 
   const editarCurso = (id) => {
-    navigate(`/editarCurso/${id}`);
+    navigate(`/editarCursos/${id}`);
   };
 
   return (

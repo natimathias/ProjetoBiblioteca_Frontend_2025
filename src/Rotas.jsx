@@ -3,7 +3,6 @@ import { Menu } from "./pages/Menu/Menu";
 import { Login } from "./pages/Login/Login";
 import { Pesquisar } from "./pages/Pesquisar/Pesquisar";
 import { Catalogo } from "./pages/Catalogo/Catalogo";
-import { MeusDados } from "./pages/MeusDados/MeusDados";
 import { Emprestimo } from "./pages/Emprestimo/Emprestimo";
 import { CadastroLocatario } from "./pages/Cadastro/CadastroLocatario";
 import { CadastroLivro } from "./pages/Cadastro/CadastroLivro";
@@ -34,7 +33,6 @@ export function Rotas() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/pesquisar" element={<Pesquisar />} />
                 <Route path="/catalogo" element={<Catalogo />}/>
-                <Route path="/dados" element={<MeusDados />} />
                 <Route path="/emprestimo" element={<Emprestimo/>}/>
                 <Route path="/acessoBibliotecario" element={<AcessoBibliotecario/>}/>
                 <Route path="/cadastroLocatario" element={<CadastroLocatario />} />
