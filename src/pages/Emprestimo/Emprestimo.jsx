@@ -1,8 +1,53 @@
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function Emprestimo() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const livro = location.state?.livro;
+  const usuario = location.state?.usuario;
+
+  const [status, setStatus] = useState("pendente"); // 'pendente', 'sucesso', 'erro'
+  const [mensagem, setMensagem] = useState("");
+  const [divida, setDivida] = useState(0);
+
+  useEffect(() => {
+    if (!usuario || !livro) {
+      setStatus("erro");
+      setMensagem("Usuário ou livro não informado. Faça login novamente.");
+      // Redireciona para login após 3s
+      setTimeout(() => navigate("/login"), 3000);
+      return;
+    }
+
+    async function fazerEmprestimo() {
+      setStatus("pendente");
+      try {
+        const response = await fetch("http://localhost:3000/emprestarLivro", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_usuario: usuario.id, id_livro: livro.id }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setStatus("sucesso");
+          setMensagem(data.mensagem || "Empréstimo realizado com sucesso!");
+          setDivida(data.divida || 0);
+        } else {
+          setStatus("erro");
+          setMensagem(data.mensagem || "Erro ao realizar empréstimo.");
+        }
+      } catch (error) {
+        setStatus("erro");
+        setMensagem("Erro de comunicação com o servidor.");
+      }
+    }
+
+    fazerEmprestimo();
+  }, [usuario, livro, navigate]);
 
   fetch("http://localhost:8086/emprestarLivro?id_locatario=76&id_livro=14", {
     method: "GET",
@@ -38,11 +83,17 @@ export function Emprestimo() {
       >
         <h1 className="text-3xl font-bold text-center mb-6">📖 Confirmação de Empréstimo</h1>
 
-        {livro ? (
+        {status === "pendente" && (
+          <p className="text-yellow-300 text-center">Processando empréstimo...</p>
+        )}
+
+        {status === "erro" && (
+          <p className="text-red-400 text-center text-lg">❌ {mensagem}</p>
+        )}
+
+        {status === "sucesso" && livro && (
           <div className="text-center space-y-4">
-            <p className="text-green-400 text-xl font-semibold">
-              ✅ Empréstimo confirmado para:
-            </p>
+            <p className="text-green-400 text-xl font-semibold">✅ {mensagem}</p>
             <h2 className="text-2xl font-bold">{livro.titulo}</h2>
             <p><strong>Autor:</strong> {livro.autor_nome}</p>
             <p><strong>Categoria:</strong> {livro.categoria_nome}</p>
@@ -51,11 +102,12 @@ export function Emprestimo() {
               alt="Capa do livro"
               className="mx-auto mt-4 w-64 h-80 object-cover rounded shadow-lg"
             />
+            <p className="mt-4 text-yellow-300 font-semibold">
+              {divida > 0
+                ? `💰 Multa pendente: R$ ${divida.toFixed(2)}`
+                : "💰 Sem multas pendentes"}
+            </p>
           </div>
-        ) : (
-          <p className="text-red-400 text-center text-lg">
-            ❌ Nenhum livro selecionado para empréstimo.
-          </p>
         )}
       </div>
     </div>

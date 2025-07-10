@@ -9,11 +9,17 @@ export function Catalogo() {
     fetch("http://localhost:8086/listarLivros")
       .then(res => res.json())
       .then(data => setLivros(data))
-      .catch(err => alert("Erro ao carregar livros"));
+      .catch(() => alert("Erro ao carregar livros"));
   }, []);
 
   function irParaEmprestimo(livro) {
-    navigate("/emprestimo", { state: { livro } });
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    if (!usuarioLogado) {
+      alert("Você precisa estar logado para fazer empréstimos.");
+      navigate("/login");
+      return;
+    }
+    navigate("/emprestimo", { state: { livro, usuario: usuarioLogado } });
   }
 
   return (

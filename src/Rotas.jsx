@@ -24,6 +24,7 @@ import { EditarAutor } from "./pages/Editar/editarAutor";
 import { EditarEditora } from "./pages/Editar/editarEditora";
 import { EditarLocatario } from "./pages/Editar/editarLocatario";
 import { EditarLivro } from "./pages/Editar/editarLivro";
+import { MeusDados } from "./pages/MeusDados/MeusDados";
 
 export function Rotas() {
     return (
@@ -54,6 +55,7 @@ export function Rotas() {
                 <Route path="/editarEditora/:id" element={<EditarEditora/>}/>
                 <Route path="/editarLocatario/:id" element={<EditarLocatario/>}/>
                 <Route path="/editarLivro/:id" element={<EditarLivro/>}/>
+                {<Route path="/meusDados/:id" element={<MeusDados/>}/>}
             </Routes>
         </BrowserRouter>
     )
