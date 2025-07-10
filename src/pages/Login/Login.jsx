@@ -20,6 +20,8 @@ export function Login() {
       const data = await response.json();
 
       if (response.ok) {
+        // SALVA usuário no localStorage
+        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario)); // supondo que API retorne o usuário em data.usuario
         alert('Login realizado com sucesso!');
         navigate('/catalogo');
       } else {
