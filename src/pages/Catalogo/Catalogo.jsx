@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Catalogo() {
   const [livros, setLivros] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const buscarLivros = async () => {
@@ -12,7 +14,7 @@ export function Catalogo() {
           }
           return response.json();
         })
-        .then(data => {  
+        .then(data => {
           setLivros(data);
         })
         .catch(erro => {
@@ -23,6 +25,10 @@ export function Catalogo() {
 
     buscarLivros();
   }, []);
+
+  function irParaEmprestimo(livro) {
+    navigate("/emprestimo", { state: { livroSelecionado: livro } });
+  }
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black">
@@ -57,6 +63,13 @@ export function Catalogo() {
                 <h2 className="text-xl font-bold">{livro.titulo}</h2>
                 <p><strong>Autor:</strong> {livro.autor_nome}</p>
                 <p><strong>Categoria:</strong> {livro.categoria_nome}</p>
+
+                <button
+                  className="mt-4 w-full bg-red-600 hover:bg-red-700 transition-colors text-white font-semibold py-2 rounded"
+                  onClick={() => irParaEmprestimo(livro)}
+                >
+                  Emprestar
+                </button>
               </div>
             ))}
           </div>

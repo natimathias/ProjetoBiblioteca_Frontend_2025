@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from "axios"; 
 
 export function Emprestimo() {
   const [livrosDisponiveis, setLivrosDisponiveis] = useState([]);
-  const [livroSelecionado, setLivroSelecionado] = useState(null);
   const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
     async function carregarLivros() {
       try {
-        const resposta = fetch("http://localhost:8086/listarLivros");
-        setLivrosDisponiveis(resposta.data);
+        const resposta = await fetch("http://localhost:8086/listarLivros");
+        const dados = await resposta.json();
+        setLivrosDisponiveis(dados);
       } catch (erro) {
         console.error("Erro ao carregar livros:", erro);
         setMensagem("Erro ao carregar livros disponíveis.");
@@ -20,27 +19,37 @@ export function Emprestimo() {
     carregarLivros();
   }, []);
 
-  async function confirmarEmprestimo() {
-    if (!livroSelecionado) {
-      setMensagem("Por favor, selecione um livro para emprestar.");
-      return;
-    }
-
+  async function confirmarEmprestimo(livro) {
     try {
       const emprestimo = {
-        id_locatario: 1, 
-        id_livro: livroSelecionado.id,
+        id_locatario: 1, // substitua pelo id real do usuário
+        id_livro: livro.id,
       };
 
-      fetch("http://localhost:8086/realizarEmprestimo", emprestimo);
-      setMensagem(`Empréstimo realizado com sucesso: "${livroSelecionado.titulo}"`);
-      setLivroSelecionado(null);
+      const resposta = await fetch("http://localhost:8086/realizarEmprestimo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emprestimo),
+      });
 
-      const atualizados = fetch("http://localhost:8086/listarLivros");
-      setLivrosDisponiveis(atualizados.data);
+      const texto = await resposta.text();
+      console.log("🔁 Resposta da API:", texto);
+
+      if (!resposta.ok) {
+        throw new Error("Erro ao emprestar: " + texto);
+      }
+
+      setMensagem(`✅ Empréstimo realizado: "${livro.titulo}"`);
+
+      // Atualiza a lista de livros
+      const novaResposta = await fetch("http://localhost:8086/listarLivros");
+      const novosDados = await novaResposta.json();
+      setLivrosDisponiveis(novosDados);
     } catch (erro) {
-      console.error("Erro ao confirmar empréstimo:", erro);
-      setMensagem("Não foi possível realizar o empréstimo.");
+      console.error("❌ Erro ao confirmar empréstimo:", erro.message);
+      setMensagem("❌ Não foi possível realizar o empréstimo.\n" + erro.message);
     }
   }
 
@@ -60,35 +69,29 @@ export function Emprestimo() {
       >
         <h1 className="text-3xl font-bold text-center mb-6">📚 Empréstimo de Livros</h1>
 
-        <h2 className="text-xl font-semibold mb-4">Selecione um livro para empréstimo</h2>
-
-        <ul className="space-y-3 max-h-60 overflow-y-auto">
+        <ul className="space-y-3 max-h-80 overflow-y-auto">
           {livrosDisponiveis.map((livro) => (
             <li
               key={livro.id}
-              className={`p-3 rounded cursor-pointer border ${
-                livroSelecionado?.id === livro.id
-                  ? "border-red-500 bg-red-600/40"
-                  : "border-red-300/40"
-              }`}
-              onClick={() => setLivroSelecionado(livro)}
+              className="p-3 rounded border border-red-300/40 bg-white/10 flex justify-between items-center"
             >
-              <strong>{livro.titulo}</strong> — {livro.autor || livro.nome_autor}
-              <br />
-              <span className="text-sm">Disponíveis: {livro.qt_disponivel}</span>
+              <div>
+                <strong>{livro.titulo}</strong> — {livro.autor || livro.nome_autor}
+                <br />
+                <span className="text-sm">Disponíveis: {livro.qt_disponivel}</span>
+              </div>
+              <button
+                onClick={() => confirmarEmprestimo(livro)}
+                className="ml-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-semibold"
+              >
+                Empréstimo
+              </button>
             </li>
           ))}
         </ul>
 
-        <button
-          onClick={confirmarEmprestimo}
-          className="mt-6 w-full bg-red-600 hover:bg-red-700 transition-colors text-white font-semibold py-3 rounded"
-        >
-          Confirmar Empréstimo
-        </button>
-
         {mensagem && (
-          <p className="mt-4 text-center text-green-400">{mensagem}</p>
+          <p className="mt-4 text-center text-green-400 whitespace-pre-line">{mensagem}</p>
         )}
       </div>
     </div>
