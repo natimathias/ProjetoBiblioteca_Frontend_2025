@@ -4,6 +4,23 @@ export function Emprestimo() {
   const location = useLocation();
   const livro = location.state?.livro;
 
+  fetch("http://localhost:8086/emprestarLivro?id_locatario=76&id_livro=14", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(async (response) => {
+        const resposta = await response.json();
+        console.log(resposta)
+        alert(resposta.message);
+        // navigate();
+      })
+      .catch((error) => {
+        console.error("Erro ao realizar o empréstimo:", error);
+        alert("Ops, houve um erro ao realizar o empréstimo.");
+      });
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black px-4">
       <div
